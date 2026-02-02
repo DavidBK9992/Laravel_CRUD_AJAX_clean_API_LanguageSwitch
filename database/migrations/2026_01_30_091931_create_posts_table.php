@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('post_title');
-            $table->text('post_description');
-            $table->enum('post_status', ['active', 'inactive'])->default('active');
-            $table->date('date');
-            $table->timestamps();
+            $table->string('post_title')->unique();
+            $table->text('post_description')->unique();
+            $table->string('post_status')->nullable(); // leer möglich
+            $table->string('image')->nullable(); // optional
+            $table->timestamps()->timezone_location_get('UTC');
         });
     }
 

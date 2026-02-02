@@ -1,3 +1,7 @@
+<!-- Layout for all pages as default template. 
+ It shows the Navbar and gives a consistent 
+ look and feel across all pages -->
+
 <!DOCTYPE html>
 <html lang="en" class="h-full bg-gray-100">
 
@@ -6,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Layout</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
 </head>
 
 <body class="h-full">
@@ -31,7 +36,7 @@
                     <a href="{{ route('home') }}" class="text-sm/6 font-semibold text-gray-900">Home</a>
 
                     <a href="{{ route('posts.index') }}" class="text-sm/6 font-semibold text-gray-900">Posts</a>
-                    <a href="{{ route('posts.add') }}" class="text-sm/6 font-semibold text-gray-900">Add Post</a>
+                    <a href="{{ route('posts.create') }}" class="text-sm/6 font-semibold text-gray-900">Add Post</a>
 
 
 
@@ -60,7 +65,7 @@
                                 <div class="-my-6 divide-y divide-gray-500/10">
                                     <div class="space-y-2 py-6">
                                         <a href="{{ route('posts.index') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Posts</a>
-                                        <a href="{{ route('posts.add') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Add Post</a>
+                                        <a href="{{ route('posts.create') }}" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Add Post</a>
 
 
                                     </div>
@@ -73,7 +78,11 @@
                     </div>
                 </dialog>
             </el-dialog>
+
         </header>
+        <hr>
+
+        <!-- Here will be the content of each page -->
         {{ $slot }}
     </div>
 </body>

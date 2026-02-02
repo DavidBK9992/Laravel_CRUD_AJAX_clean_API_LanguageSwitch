@@ -12,12 +12,15 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->paginate(5);
-        return view('posts.index', compact('posts'));
+        $posts = Post::orderByDesc('created_at')->orderByDesc('id')->paginate(10);
+
+        return view('posts.index', [
+            'posts' => $posts,
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new post.
      */
     public function create()
     {
@@ -25,75 +28,70 @@ class PostController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display the clicked post.
+     */
+    public function show(Post $post)
+    {
+        // Logic to show a specific post by ID
+        return view('posts.show', [
+            'post' => $post
+        ]);
+    }
+
+    /**
+     * Store a newly created post in storage.
      */
     public function store(Request $request)
     {
         $request->validate([
-            'post_title' => 'required|string|min:8|max:255',
-            'post_description' => 'required|string|min:100|max:20000',
+            'post_title' => 'required|string|unique:posts,post_title',
+            'post_description' => 'required|string|unique:posts,post_description',
             'post_status' => 'required|in:active,inactive',
-            'date' => 'required|date',
+            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
 
-        Post::create([
-            'post_title' => $request->post_title,
-            'post_description' => $request->post_description,
-            'post_status' => $request->post_status,
-            'date' => $request->date,
-        ]);
+        $data = $request->only(['post_title', 'post_description', 'post_status']);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('posts', 'public');
+        }
+
+        Post::create($data);
 
         return redirect()->route('posts.index')
             ->with('success', 'Post created successfully.');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
+    public function edit(Post $post)
     {
-        return view('posts.show', [
+        return view('posts.edit', [
             'post' => $post,
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        return view('posts.edit', ['post' => $post]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Post $post)
     {
         $request->validate([
-            'post_title' => 'required|string|min:8|max:50',
-            'post_description' => 'required|string|min:100|max:20000',
+            'post_title' => 'required|string|unique:posts,post_title,' . $post->id,
+            'post_description' => 'required|string|unique:posts,post_description,' . $post->id,
             'post_status' => 'required|in:active,inactive',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
-        $post->update([
-            'post_title' => $request->post_title,
-            'post_description' => $request->post_description,
-            'post_status' => $request->post_status,
-            'date' => $post->date,
-        ]);
+
+        $data = $request->only(['post_title', 'post_description', 'post_status']);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('posts', 'public');
+        }
+
+        $post->update($data);
 
         return redirect()->route('posts.index')
             ->with('success', 'Post updated successfully.');
     }
     public function destroy(Post $post)
     {
-        $post->delete();
-
-        return redirect()->route('posts.index')
-            ->with('success', 'Post deleted successfully.');
+        return $post->delete()
+            ? redirect()->route('posts.index')->with('success', 'Post deleted successfully.')
+            : redirect()->route('posts.index')->with('error', 'Failed to delete the post.');
     }
 }
-
-/**
- * Remove the specified resource from storage.
- */

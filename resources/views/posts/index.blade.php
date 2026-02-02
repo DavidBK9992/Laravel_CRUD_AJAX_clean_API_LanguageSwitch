@@ -1,64 +1,142 @@
-@props(['status' => 'active', 'inactive'])
+@props(['status' => 'active', 'inactive', NULL])
+
 
 <x-layout>
-
-    <div class="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8 flex min-h-full flex-col justify-center ">
-        <div class="justify-center text-center ">
-            <h2 class="text-2xl font-bold text-gray-900">All Posts</h2>
+    <div class="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8 flex flex-col min-h-full">
+        <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-900 mt-20">All Posts</h2>
             <p class="text-sm text-gray-500">(Click to edit post)</p>
         </div>
 
-        <ul role="list" class="mt-4">
-            @foreach ($posts as $post)
-            <li class="m-4 block px-6 py-2 border border-gray-200 rounded-lg hover:border-gray-300 hover:shadow-md">
-                <a href="{{ route('posts.edit', $post) }}">
+        <!-- Table -->
+        <div class="w-full overflow-x-hidden">
+            <table class="min-w-full border border-gray-200 divide-y divide-gray-200 table-fixed">
+                <!-- Table Header -->
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="w-8 px-2 py-2 text-left text-sm font-semibold text-gray-700">ID</th>
+                        <th class="w-36 px-2 py-2 text-left text-sm font-semibold text-gray-700">Title</th>
+                        <th class="w-36 px-2 py-2 text-left text-sm font-semibold text-gray-700">Description</th>
+                        <th class="w-20 px-2 py-2 text-left text-sm font-semibold text-gray-700">Image</th>
+                        <th class="w-20 px-2 py-2 text-left text-sm font-semibold text-gray-700">Status</th>
+                        <th class="w-28 px-2 py-2 text-left text-sm font-semibold text-gray-700">Date</th>
+                        <th class="w-40 px-2 py-2 text-left text-sm font-semibold text-gray-700 text-right">Actions</th>
+                    </tr>
+                </thead>
 
-                    <div class="flex justify-between  py-5">
+                <!-- Table Body -->
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach ($posts as $post)
+                    <tr class="hover:bg-gray-50 align-top">
+                        <td class="px-2 py-2 text-sm text-gray-900">{{ $post->id }}</td>
 
-                        <div class="flex min-w-0 gap-x-4">
-
-                            <div class="min-w-0 flex-auto">
-                                <p class="text-sm font-semibold text-gray-900">
-                                    {{ $post->post_title }}
-                                </p>
-                                <p class="mt-1 truncate text-xs text-gray-500">
-                                    {{ $post->post_description }}
-                                </p>
-
-                            </div>
-
-
-                        </div>
-
-                        <div class="hidden sm:flex sm:flex-col sm:items-end">
-                            <div class="mt-1 flex items-center gap-x-1.5">
-                                @if ($post->post_status === 'active')
-                                <div class="flex-none rounded-full bg-emerald-500/20 p-1">
-                                    <div class="size-1.5 rounded-full bg-emerald-500"></div>
-                                </div>
-                                <p class="text-xs text-gray-500">Active</p>
-                                @else
-                                <div class="flex-none rounded-full bg-red-500/20 p-1">
-                                    <div class="size-1.5 rounded-full bg-red-500"></div>
-                                </div>
-                                <p class="text-xs text-gray-500">Inactive</p>
-                                @endif
-                            </div>
-                            <p class="mt-1 text-xs text-gray-500 text-right">
-                                {{ $post->updated_at }}
+                        <td class="px-2 py-2 text-sm text-gray-900 break-words">
+                            <p class="font-semibold truncate" title="{{ $post->post_title }}">
+                                {{ Str::limit($post->post_title, 20) }}
                             </p>
-                        </div>
 
-                    </div>
+                        </td>
+                        <td class="px-2 py-2 text-sm text-gray-900 break-words">
 
+                            <p class="text-xs text-gray-500 break-words max-w-[120px] max-h-12 overflow-hidden" title="{{ $post->post_description }}">
+                                {{ Str::limit($post->post_description) }}
+                            </p>
+                        </td>
 
-                </a>
-            </li>
-            @endforeach
-        </ul>
+                        <td class="px-2 py-2">
+                            @if ($post->image)
+                            <img src="{{ asset('storage/' . $post->image) }}"
+                                alt="Post Image"
+                                class="min-w-12 w-12 max-w-full rounded-lg object-cover">
+                            @endif
+                        </td>
 
-        <div class="pt-4 ">
+                        <td class="px-2 py-2 text-sm">
+                            @if ($post->post_status === 'active')
+                            <i>
+                                <span class="inline-flex items-center gap-x-1 text-green-600">
+                                    <span class="h-2 w-2 rounded-full bg-green-500 inline-block"></span> Active
+                                </span>
+                                @elseif ($post->post_status === 'inactive')
+                                <span class="inline-flex items-center gap-x-1 text-red-600">
+                                    <span class="h-2 w-2 rounded-full bg-red-500 inline-block"></span> Inactive
+                                </span>
+                                @else ($post->post_status !== 'active' && $post->post_status !== 'inactive')
+                                <span class="inline-flex items-center gap-x-1 text-gray-600">
+                                    <span class="h-2 w-2 rounded-full bg-gray-500 inline-block"></span> N/A
+                                </span>
+                            </i>
+                            @endif
+
+                        </td>
+                        <td class="px-2 py-2 text-xs text-gray-500">
+                            {{ $post->updated_at->format('d M Y') }} <br>
+                            ({{ $post->updated_at->timezone('Europe/Berlin')->format('H:i:s') }})
+                        </td>
+
+                        <td class="px-2 py-2 text-sm space-x-1 flex justify-end">
+                            <!-- Edit Link -->
+                            <a href="{{ route('posts.edit', $post) }}" class="text-blue-600 hover:underline">Edit</a>
+                            <!-- Show Link -->
+                            <a href="{{ route('posts.show', $post) }}" class="text-gray-600 hover:underline">Show</a>
+                            <!-- Delete Button that opens Delete Confirmation Modal -->
+                            <button type="button"
+                                class="text-red-600 hover:underline delete-button"
+                                data-id="{{ $post->id }}"
+                                data-title="{{ $post->post_title }}">
+                                Delete
+                            </button>
+                            <!-- If deletion is successful show message "success" -->
+                            @if (session('success'))
+                            <x-alert type="success" :message="session('success')" />
+                            @endif
+                            <!-- If deletion is NOT successful show message "error" -->
+                            @if (session('error'))
+                            <x-alert type="error" :message="session('error')" />
+                            @endif
+
+                        </td>
+                    </tr>
+
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination -->
+        <div class="pt-4">
             {{ $posts->links() }}
         </div>
     </div>
+    <!-- Delete Confirmation Dialog -->
+    <x-form-delete />
+
+
+
+    <!-- Script for handling delete confirmation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const deleteDialog = document.getElementById('delete-dialog');
+            const deleteForm = document.getElementById('delete-form');
+            const deletePostTitle = document.getElementById('delete-post-title');
+            const cancelBtn = document.getElementById('cancel-delete');
+
+            document.querySelectorAll('.delete-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const postId = button.dataset.id;
+                    const postTitle = button.dataset.title;
+
+                    deleteForm.action = `/posts/${postId}`;
+                    deletePostTitle.textContent = postTitle;
+
+                    deleteDialog.showModal();
+                });
+            });
+
+            cancelBtn.addEventListener('click', () => {
+                deleteDialog.close();
+
+            });
+        });
+    </script>
+
 </x-layout>

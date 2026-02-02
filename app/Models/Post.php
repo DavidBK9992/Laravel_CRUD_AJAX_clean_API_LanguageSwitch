@@ -12,6 +12,6 @@ class Post extends Model
         'post_title',
         'post_description',
         'post_status',
-        'date',
+        'image',
     ];
 }

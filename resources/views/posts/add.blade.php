@@ -43,11 +43,37 @@
                     </div>
                 </div>
 
-                <!-- Status (always active, hidden input) -->
-                <input type="hidden" name="post_status" value="active">
+                <!-- Image -->
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-900">Image</label>
+                    <div class="mt-1">
+                        <input
+                            type="file"
+                            name="image"
+                            id="image"
+                            class="block w-full text-sm text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                        @error('image')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
 
-                <!-- Date (hidden, current date) -->
-                <input type="hidden" name="date" value="{{ now()->format('Y-m-d') }}">
+                <!-- Status -->
+                <div>
+                    <label for="post_status" class="block text-sm font-medium text-gray-900">Status</label>
+                    <select
+                        name="post_status"
+                        id="post_status"
+                        class="mt-1 block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <option value="" {{ old('post_status', $post->post_status ?? '') === '' ? '' : '' }}>-- Select status --</option>
+                        <option value="active" {{ old('post_status', $post->post_status ?? '') === 'active' ? 'selected' : '' }}>Active</option>
+                        <option value="inactive" {{ old('post_status', $post->post_status ?? '') === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                    </select>
+
+                    @error('post_status')
+                    <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
 
             <!-- Buttons -->
@@ -60,4 +86,29 @@
             </div>
         </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const deleteDialog = document.getElementById('delete-dialog');
+            const deleteForm = document.getElementById('delete-form');
+            const deletePostTitle = document.getElementById('delete-post-title');
+            const cancelBtn = document.getElementById('cancel-delete');
+
+            document.querySelectorAll('.delete-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const postId = button.dataset.id;
+                    const postTitle = button.dataset.title;
+
+                    deleteForm.action = `/posts/${postId}`;
+                    deletePostTitle.textContent = postTitle;
+
+                    deleteDialog.showModal();
+                });
+            });
+
+            cancelBtn.addEventListener('click', () => {
+                deleteDialog.close();
+
+            });
+        });
+    </script>
 </x-layout>

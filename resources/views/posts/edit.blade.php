@@ -44,6 +44,21 @@
                     </div>
                 </div>
 
+                <!-- Image -->
+                <div>
+                    <label for="image" class="block text-sm font-medium text-gray-900">Image</label>
+
+                    @if ($post->image)
+                    <p class="text-sm text-gray-500 mb-2">Current image:</p>
+                    <img src="{{ asset('storage/' . $post->image) }}" alt="Current image" class="mb-4 max-h-60 rounded-lg object-cover">
+                    @endif
+
+                    <input type="file" name="image" id="image" class="block w-full text-sm text-gray-900 file:py-2 file:px-4 file:rounded-lg file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                    @error('image')
+                    <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Status -->
                 <div>
                     <label for="post_status" class="block text-sm font-medium text-gray-900">Status</label>
@@ -55,9 +70,11 @@
                         <option value="active" {{ $post->post_status === 'active' ? 'selected' : '' }}>Active</option>
                         <option value="inactive" {{ $post->post_status === 'inactive' ? 'selected' : '' }}>Inactive</option>
                     </select>
+
                     @error('post_status')
                     <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
+
                 </div>
             </div>
 
@@ -71,15 +88,6 @@
                     Cancel
                 </a>
             </div>
-        </form>
-
-        <!-- Delete Form -->
-        <form method="POST" action="{{ route('posts.destroy', $post) }}" id="delete-form" class="flex mt-0">
-            @csrf
-            @method('DELETE')
-            <button form="delete-form" class="ml-auto text-red-500 text-sm font-bold hover:underline">
-                Delete
-            </button>
         </form>
     </div>
 </x-layout>
