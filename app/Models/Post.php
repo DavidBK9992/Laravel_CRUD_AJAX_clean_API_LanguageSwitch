@@ -13,5 +13,13 @@ class Post extends Model
         'post_description',
         'post_status',
         'image',
+        'updated_at'
     ];
+
+
+    // Slugging route model binding to use post_title instead of id
+    public function getRouteKeyName()
+    {
+        return 'post_title';
+    }
 }

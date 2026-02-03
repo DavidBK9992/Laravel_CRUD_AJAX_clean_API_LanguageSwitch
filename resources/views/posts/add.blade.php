@@ -1,13 +1,12 @@
 <x-layout>
-    <div class="mx-auto pt-24 max-w-5xl px-4 py-6 sm:px-6 lg:px-8 flex min-h-full flex-col justify-center">
-        <div class="text-center mb-6">
+    <x-header>
+        <x-slot name="header">
             <h2 class="text-2xl font-bold text-gray-900">Add Post</h2>
-            <p class="text-sm text-gray-500">(Fill in the details below)</p>
-        </div>
+            <p class="text-sm text-gray-500">(Fill in all the fields)</p>
+        </x-slot>
 
         <form method="POST" action="{{ route('posts.store') }}" class="space-y-6" enctype="multipart/form-data">
             @csrf
-
             <div class="space-y-4 m-4">
                 <!-- Title -->
                 <div>
@@ -65,11 +64,9 @@
                         name="post_status"
                         id="post_status"
                         class="mt-1 block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                        <option value="" {{ old('post_status', $post->post_status ?? '') === '' ? '' : '' }}>-- Select status --</option>
                         <option value="active" {{ old('post_status', $post->post_status ?? '') === 'active' ? 'selected' : '' }}>Active</option>
                         <option value="inactive" {{ old('post_status', $post->post_status ?? '') === 'inactive' ? 'selected' : '' }}>Inactive</option>
                     </select>
-
                     @error('post_status')
                     <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                     @enderror
@@ -85,7 +82,8 @@
                 </a>
             </div>
         </form>
-    </div>
+    </x-header>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const deleteDialog = document.getElementById('delete-dialog');

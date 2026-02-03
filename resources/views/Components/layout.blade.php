@@ -3,7 +3,7 @@
  look and feel across all pages -->
 
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-gray-100">
+<html lang="en" class="h-full bg-white">
 
 <head>
     <meta charset="UTF-8">
@@ -13,8 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
 </head>
 
-<body class="h-full">
-
+<body class="h-full bg-white">
     <div class="bg-white h-full">
         <header class="absolute inset-x-0 top-0 z-50">
             <nav aria-label="Global" class="flex items-center justify-between p-6 lg:px-8">

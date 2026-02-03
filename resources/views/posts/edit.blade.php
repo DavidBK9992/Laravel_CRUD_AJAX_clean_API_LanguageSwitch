@@ -1,9 +1,9 @@
 <x-layout>
-    <div class="mx-auto pt-24 max-w-5xl px-4 py-6 sm:px-6 lg:px-8 flex min-h-full flex-col justify-center">
-        <div class="text-center mb-6">
+    <x-header>
+        <x-slot name="header">
             <h2 class="text-2xl font-bold text-gray-900">Edit Post</h2>
             <p class="text-sm text-gray-500">(Update the details below)</p>
-        </div>
+        </x-slot>
 
         <form method="POST" action="{{ route('posts.update', $post) }}" class="space-y-6" enctype="multipart/form-data">
             @csrf
@@ -89,5 +89,5 @@
                 </a>
             </div>
         </form>
-    </div>
+    </x-header>
 </x-layout>

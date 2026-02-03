@@ -2,11 +2,11 @@
 
 
 <x-layout>
-    <div class="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8 flex flex-col min-h-full">
-        <div class="text-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-900 mt-20">All Posts</h2>
-            <p class="text-sm text-gray-500">(Click to edit post)</p>
-        </div>
+    <x-header>
+        <x-slot name="header">
+            <h2 class="text-2xl font-bold text-gray-900">Post List</h2>
+            <p class="text-sm text-gray-500">(Show, Edit and Delete)</p>
+        </x-slot>
 
         <!-- Table -->
         <div class="w-full overflow-x-hidden">
@@ -19,11 +19,10 @@
                         <th class="w-36 px-2 py-2 text-left text-sm font-semibold text-gray-700">Description</th>
                         <th class="w-20 px-2 py-2 text-left text-sm font-semibold text-gray-700">Image</th>
                         <th class="w-20 px-2 py-2 text-left text-sm font-semibold text-gray-700">Status</th>
-                        <th class="w-28 px-2 py-2 text-left text-sm font-semibold text-gray-700">Date</th>
+                        <th class="w-28 px-2 py-2 text-left text-sm font-semibold text-gray-700">updated_at</th>
                         <th class="w-40 px-2 py-2 text-left text-sm font-semibold text-gray-700 text-right">Actions</th>
                     </tr>
                 </thead>
-
                 <!-- Table Body -->
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach ($posts as $post)
@@ -71,7 +70,7 @@
                         </td>
                         <td class="px-2 py-2 text-xs text-gray-500">
                             {{ $post->updated_at->format('d M Y') }} <br>
-                            ({{ $post->updated_at->timezone('Europe/Berlin')->format('H:i:s') }})
+                            ({{ $post->updated_at->format('H:i:s') }})
                         </td>
 
                         <td class="px-2 py-2 text-sm space-x-1 flex justify-end">
@@ -106,12 +105,9 @@
         <div class="pt-4">
             {{ $posts->links() }}
         </div>
-    </div>
+    </x-header>
     <!-- Delete Confirmation Dialog -->
     <x-form-delete />
-
-
-
     <!-- Script for handling delete confirmation -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -122,12 +118,11 @@
 
             document.querySelectorAll('.delete-button').forEach(button => {
                 button.addEventListener('click', () => {
-                    const postId = button.dataset.id;
                     const postTitle = button.dataset.title;
-
-                    deleteForm.action = `/posts/${postId}`;
+                    // Using postTitle (slug) instead of id for deleting when button is clicked
+                    deleteForm.action = `/posts/${postTitle}`;
+                    // Shows 
                     deletePostTitle.textContent = postTitle;
-
                     deleteDialog.showModal();
                 });
             });
