@@ -122,7 +122,7 @@ class PostController extends Controller
     $badge = ''; 
     $button = '<button 
                 class="toggle-status flex items-center justify-center border p-1.5 rounded-md text-gray-700 bg-gray-50 hover:bg-blue-100 w-8 h-8"
-                data-id="'.$row->id.'">
+                data-id="'.$row->id.'" data-status="'.$row->post_status.'">
                 <img src="change.png" class="w-4 h-4">
            </button>';
 
@@ -170,24 +170,40 @@ return '<div class="flex items-center justify-between gap-2">'.$badge.$button.'<
 
 
         ->addColumn('action', function($row){
+            if ($row->post_status === 'active'){
             $edit = '<a href="'.route('posts.edit', $row->id).'" class="border p-1.5 rounded-md text-gray-700 bg-gray-50 hover:bg-blue-100">Edit</a>';
-            $delete = '<button data-id="'.$row->id.'" data-post_title="'.e($row->post_title).'" class="delete-post border p-1.5 rounded-md text-red-600 bg-red-50 hover:bg-red-100">Delete</button>';
+             $delete = '<button data-id="'.$row->id.'" data-post_title="'.e($row->post_title).'" class="delete-post border p-1.5 rounded-md text-red-600 bg-red-50 hover:bg-red-100">Delete</button>';
             $show = '<a href="'.route('posts.show', $row->id).'" class="border p-1.5 rounded-md text-gray-700 bg-gray-50 hover:bg-blue-100">Show</a>';
-            return $edit.' '.$show.' '.$delete;
+                return $edit.' '.$show.' '.$delete;
+            }else{
+               $delete = '<button data-id="'.$row->id.'" data-post_title="'.e($row->post_title).'" class="delete-post border p-1.5 rounded-md text-red-600 bg-red-50 hover:bg-red-100">Delete</button>';
+            $show = '<a href="'.route('posts.show', $row->id).'" class="border p-1.5 rounded-md text-gray-700 bg-gray-50 hover:bg-blue-100">Show</a>';
+             return $show.' '.$delete;
+            }
         })
         ->rawColumns(['image', 'post_title', 'post_description','post_status', 'updated_at', 'action'])
         ->make(true);
 }
 
     // AJAX: Status change
-    public function statusUpdate(Request $request)
-    {
-        $post = Post::findOrFail($request->id);
-        $post->post_status = $post->post_status === 'active' ? 'inactive' : 'active';
-        $post->save();
+   public function statusUpdate(Request $request)
+{
+    $request->validate([
+        'id' => 'required|exists:posts,id',
+        'status' => 'required|in:active,inactive',
+    ]);
 
-        return response()->json(['success' => true, 'status' => $post->post_status]);
-    }
+    $post = Post::findOrFail($request->id);
+    $post->post_status = $request->status;
+    $post->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Status successfully saved!',
+        'status' => $post->post_status,
+    ]);
+}
+
 
     // AJAX: Delete Post
     public function deleteAjax(Request $request)

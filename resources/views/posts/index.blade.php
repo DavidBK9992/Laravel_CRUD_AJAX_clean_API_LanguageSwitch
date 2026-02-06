@@ -31,7 +31,6 @@
                         <th class="px-2 py-2 text-left text-sm font-semibold text-gray-700">Status</th>
                         <th class="w-28 px-2 py-2 text-left text-sm font-semibold text-gray-700">updated_at</th>
                         <th class="w-36 px-4 py-2 text-left text-sm font-semibold text-gray-700">Actions</th>
-
                     </tr>
                 </tfoot>
             </table>
@@ -39,6 +38,7 @@
 
     </x-header>
     <!-- Delete Confirmation Dialog -->
+    <x-form-toggle-status />
     <x-form-delete />
     <x-alert />
 
@@ -47,10 +47,17 @@
             var table = $('#posts-table').DataTable({
                 processing: true,
                 serverSide: true,
-                order: [
-                    [5, "desc"]
+                ajax: "{{ route('posts.data') }}",
+                columns: [ /* ... */ ],
+                dom: 'Blfrtip', // Wichtig: l = page length
+                buttons: ['csv', 'excel'],
+                lengthMenu: [
+                    [10, 20, 50, -1],
+                    [10, 20, 50, "All"]
                 ],
-                lengthMenu: [10, 25, 50, -1],
+                order: [
+                    [5, 'desc']
+                ],
                 ajax: "{{ route('posts.data') }}",
                 columns: [{
                         data: 'id',
@@ -85,10 +92,7 @@
                         searchable: false
                     },
                 ],
-                dom: 'Bfrtip',
-                buttons: [
-                    'csv', 'excel'
-                ],
+
 
                 // Column specific search filter
                 initComplete: function() {
@@ -101,11 +105,11 @@
                         const searchableColumns = ['Status'];
 
                         if (!searchableColumns.includes(colName)) {
-                            footer.innerHTML = ''; // Keine Filter für andere Spalten
+                            footer.innerHTML = ''; // No Filter for other columns
                             return;
                         }
 
-                        // Select erstellen
+                        // Make Select
                         let select = document.createElement('select');
                         let options = ['Active', 'Inactive'];
 
@@ -123,36 +127,69 @@
                         footer.innerHTML = '';
                         footer.appendChild(select);
 
-                        // Event: Filter bei Auswahländerung
+                        // Event: Filter for change of selection of status
                         select.addEventListener('change', function() {
                             column.search(select.value).draw();
                             console.log(this.value)
                         });
                     });
                 }
+            });
 
+            // Open Status Modal
+            $(document).on('click', '.toggle-status', function() {
+                const id = $(this).data('id');
+                const status = $(this).data('status'); // active | inactive
 
+                $('#toggle-status-id').val(id);
+                $('#toggle-status-title').text(id);
+
+                // Set current status as selected option in modal
+                $('#new-status').val(status);
+
+                document.getElementById('status-dialog').showModal();
             });
 
 
+            // Cancel Status Modal
+            $('#cancel-status').on('click', function() {
+                document.getElementById('status-dialog').close();
+            });
 
-            // Status toggle
-            $(document).on('click', '.toggle-status', function() {
-                var id = $(this).data('id');
-                // var status = $(this).data('')
+            // Set Status
+            $('#submit-status').on('click', function() {
+                const id = $('#toggle-status-id').val();
+                const status = $('#new-status').val();
+                document.getElementById('status-dialog').showModal();
+                console.log(status);
+
 
                 $.ajax({
                     url: "{{ route('posts.status.update') }}",
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",
-                        id: id
+                        id: id,
+                        status: status
                     },
                     success: function(res) {
                         if (res.success) {
                             table.ajax.reload(null, false);
-                            alert('Status changed to ' + res.status);
+                            document.getElementById('status-dialog').close();
+                            $('body').append(`
+                        <div class="alert alert-success fixed top-5 right-5 z-50">
+                            ${res.message}
+                        </div>
+                    `);
+
+
+                            setTimeout(() => {
+                                $('.alert').fadeOut(300, function() {
+                                    $(this).remove();
+                                });
+                            }, 3000);
                         }
+
                     }
                 });
             });
@@ -162,14 +199,11 @@
                 const id = $(this).data('id');
                 const title = $(this).data('post_title');
 
-                deleteRow = $(this).closest('tr');
-
                 $('#delete-post-id').val(id);
                 $('#delete-post-title').text(title);
 
                 document.getElementById('delete-dialog').showModal();
             });
-
 
             // Close Modal
             $('#cancel-delete').on('click', function() {
@@ -180,7 +214,11 @@
             $('#delete-form').on('submit', function(e) {
                 e.preventDefault();
 
+                // Actually removes the Post Row
+                deleteRow = $(this).closest('tr');
+
                 const id = $('#delete-post-id').val();
+
 
                 $.ajax({
                     url: "{{ route('posts.delete.ajax') }}",
