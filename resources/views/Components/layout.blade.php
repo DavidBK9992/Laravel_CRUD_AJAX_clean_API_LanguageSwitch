@@ -29,7 +29,7 @@
     <div class=" h-full">
         <header id="main-header"
             class="bg-white fixed border-b border-gray-200 shadow-sm fixed border- inset-x-0 top-0 z-50 transition-transform duration-300">
-            <nav aria-label="Global" class="flex items-center justify-between p-2 lg:px-8">
+            <nav aria-label="Global" class="flex items-center justify-between p-2 px-4 lg:px-8">
                 <div class="flex lg:flex-1">
                     <a href="{{ route('home') }}" class="-m-1.5 p-1.5">
                         <span class="sr-only">Your Company</span>
@@ -48,12 +48,14 @@
                     </button>
                 </div>
 
-                <div class="hidden gap-4  lg:flex lg:flex-1 lg:justify-end">
-                    <a href="{{ route('home') }}" class="text-sm/6 font-semibold text-gray-900">Home</a>
+                <div class="hidden gap-4 lg:flex lg:flex-1 lg:justify-end">
+                    <a href="{{ route('home') }}" class="text-sm/6 font-semibold text-gray-900"><img src="/home.png"
+                            alt="" class="h-6 w-auto"></a>
 
-                    <a href="{{ route('posts.index') }}" class="text-sm/6 font-semibold text-gray-900">Post List</a>
-                    <a href="{{ route('posts.create') }}" class="text-sm/6 font-semibold text-gray-900">Create <span
-                            aria-hidden="true">&rarr;</span></a>
+                    <a href="{{ route('posts.index') }}" class="text-sm/6 font-semibold text-gray-900"><img
+                            src="/list.png" alt="" class="h-6 w-auto"></a></a>
+                    <a href="{{ route('posts.create') }}" class="text-sm/6 font-semibold text-gray-900"><img
+                            src="/create.png" alt="" class="h-6 w-auto"></a></a></span></a>
                 </div>
             </nav>
             <el-dialog>

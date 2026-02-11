@@ -26,7 +26,7 @@ class PostFactory extends Factory
 
         return [
             'post_title' => Str::limit(fake()->sentence(), 50, ''),
-            'post_description' => Str::limit(fake()->text(200), 200, ''),
+            'post_description' => fake()->paragraph(50, true),
             'post_status' => 1,
 
             // 🔹 Pick a random existing image (no download, no copy)
