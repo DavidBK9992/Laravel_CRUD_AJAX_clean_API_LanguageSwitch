@@ -18,3 +18,11 @@ Route::resource('posts', PostController::class);
 Route::view('/contact', 'contact')->name('contact');
 
 
+// Laravel Breeze kit default route 
+
+// Route::get('/', function () {
+//     return ['Laravel' => app()->version()];
+// });
+
+// require __DIR__.'/auth.php';
+
