@@ -1,69 +1,67 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\v1\StorePostRequest;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
-use App\Http\Requests\UpdatePostStatusRequest;
-use App\Http\Requests\DeletePostRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class PostApiController extends Controller
+class PostController extends Controller
 {
     /**
-     * GET /api/posts
+     * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index()
     {
-        $posts = Post::latest()->paginate(10);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Hello there! Posts fetched successfully.',
-            'data' => $posts,
-        ]);
+        $user = request()->user();
+        $posts = $user->posts()->paginate();
+        return PostResource::collection($posts);
     }
 
     /**
-     * POST /api/posts
+     * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request): JsonResponse
+    public function store(StorePostRequest $request)
     {
-        $data = $request->only(['post_title', 'post_description']);
-        $data['post_status'] = $request->boolean('post_status');
-        $data['image'] = $request->file('image')->store('posts', 'public');
+        $data = $request->validated();
+ 
+        $data['author_id'] = $request->user()->id;
 
         $post = Post::create($data);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Post created successfully.',
-            'data' => $post,
-        ], 201);
+        return new PostResource($post);
+        // ->setStatusCode(201); 
+        ;
     }
 
     /**
-     * GET /api/posts/{post}
+     * Display the specified resource.
      */
-    public function show(Post $post): JsonResponse
+    public function show(Post $post)
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Post fetched successfully.',
-            'data' => $post,
-        ]);
+        abort_if(Auth::id() != $post->author_id, 403, 'Access Forbidden!');
+        return new PostResource($post);
     }
 
     /**
-     * PUT/PATCH /api/posts/{post}
+     * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post): JsonResponse
+    public function update(Request $request, Post $post)
     {
-        $data = $request->only(['post_title', 'post_description']);
-        $data['post_status'] = $request->boolean('post_status');
+        abort_if(Auth::id() != $post->author_id, 403, 'Access Forbidden!');
+        // $data = $request->validate([
+            
+        // ]);
+
+        // $post->update($data);
+
+        // return new PostResource($post);
+
+        $data = $request->only(['post_title','post_description']);
+        $data['post_status'] = $request->post_status === 'active';
 
         if ($request->hasFile('image')) {
             Storage::disk('public')->delete($post->image);
@@ -72,56 +70,18 @@ class PostApiController extends Controller
 
         $post->update($data);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Post updated successfully.',
-            'data' => $post->fresh(),
-        ]);
+        //    return redirect()->route('posts.index')
+        //              ->with('success', 'Post updated successfully!');
+        return new PostResource($post);
     }
 
     /**
-     * DELETE /api/posts/{post}
+     * Remove the specified resource from storage.
      */
-    public function destroy(DeletePostRequest $request, Post $post): JsonResponse
+    public function destroy(Post $post)
     {
-       
-        if ((int) $request->input('id') !== (int) $post->id) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Payload id does not match route id.',
-            ], 422);
-        }
-
-        Storage::disk('public')->delete($post->image);
+        abort_if(Auth::id() != $post->author_id, 403, 'Access Forbidden!');
         $post->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Post deleted successfully.',
-        ]);
-    }
-
-    /**
-     * PATCH /api/posts/{post}/status
-     */
-    public function updateStatus(UpdatePostStatusRequest $request, Post $post): JsonResponse
-    {
-  
-        if ((int) $request->input('id') !== (int) $post->id) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Payload id does not match route id.',
-            ], 422);
-        }
-
-        $post->update([
-            'post_status' => (bool) $request->boolean('status'),
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Status updated successfully.',
-            'data' => $post->fresh(),
-        ]);
+        return response()->noContent();
     }
 }

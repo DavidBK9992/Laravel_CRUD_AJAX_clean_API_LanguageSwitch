@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,11 @@ return new class extends Migration
             $table->id();
             $table->string('post_title')->unique();
             $table->text('post_description');
-            $table->boolean('post_status')->default(0); // 0 = inactive, 1 = active   
+            $table->boolean('post_status')->default(0); // 0 = inactive, 1 = active
+            $table->foreignIdFor(User::class, 'author_id')->constrained();
+            // $table->foreignId('author_id')
+            //     ->references('users')
+            //     ->cascadeOnDelete();   
              $table->string('image')->nullable(); 
             $table->timestamps();
         });

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -28,7 +29,7 @@ class PostFactory extends Factory
             'post_title' => Str::limit(fake()->sentence(), 50, ''),
             'post_description' => fake()->paragraph(50, true),
             'post_status' => 1,
-
+            'author_id' => User::inRandomOrder()->first()->id,
             // 🔹 Pick a random existing image (no download, no copy)
             'image' => !empty($images)
                 ? fake()->randomElement($images)

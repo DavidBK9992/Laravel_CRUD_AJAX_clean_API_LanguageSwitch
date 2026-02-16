@@ -24,5 +24,5 @@ Route::view('/contact', 'contact')->name('contact');
 //     return ['Laravel' => app()->version()];
 // });
 
-// require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
 

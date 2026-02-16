@@ -1,52 +1,31 @@
-
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\LoginUserRequest;
-use App\Http\Requests\Api\RegisterUserRequest;
+use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(RegisterUserRequest $request): JsonResponse
+    public function register(Request $request)
     {
+        $data = $request->validate([
+            'name' => 'required|string|min:2',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed'
+        ]);
+
         $user = User::create([
-            'name' => $request->string('name')->toString(),
-            'email' => $request->string('email')->toString(),
-            'password' => $request->string('password')->toString(),
+            'name' => $data['name'],
+            'email'=> $data['email'],
+            'password' => Hash::make($data['password'])
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
-
         return response()->json([
-            'message' => 'User registered successfully.',
-            'token' => $token,
-            'user' => $user,
+            'message' => 'User registered successfully',
+            'user' => $user
         ], 201);
-    }
-
-    public function login(LoginUserRequest $request): JsonResponse
-    {
-        $credentials = $request->validated();
-
-        $user = User::where('email', $credentials['email'])->first();
-
-        if (! $user || ! Hash::check($credentials['password'], $user->password)) {
-            return response()->json([
-                'message' => 'Invalid credentials.',
-            ], 422);
-        }
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'message' => 'Login successful.',
-            'token' => $token,
-            'user' => $user,
-        ]);
     }
 }

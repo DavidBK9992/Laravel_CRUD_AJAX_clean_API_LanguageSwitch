@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Post extends Model
 {
@@ -12,6 +13,7 @@ class Post extends Model
         'post_title',
         'post_description',
         'post_status',
+        'author_id',
         'image',
         'updated_at'
     ];
@@ -26,5 +28,9 @@ class Post extends Model
       public function getStatusTextAttribute()
     {
         return $this->post_status ? 'active' : 'inactive';
+    }
+
+    public function author(): BelongsTo {
+        return $this->belongsTo(User::class, 'author_id');
     }
 }
