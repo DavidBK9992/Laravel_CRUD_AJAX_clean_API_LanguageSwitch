@@ -62,6 +62,8 @@
                             src="/list.png" alt="" class="h-6 w-auto"></a></a>
                     <a href="{{ route('posts.create') }}" class="text-sm/6 font-semibold text-gray-900"><img
                             src="/create.png" alt="" class="h-6 w-auto"></a></a></span></a>
+                    <a href="{{ route('register') }}" class="text-sm/6 font-semibold text-gray-900">Sign Up</a></a>
+                    <a href="{{ route('login.form') }}" class="text-sm/6 font-semibold text-gray-900">Login</a></a></span></a>
                 </div>
             </nav>
             <el-dialog>

@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest')
-    ->name('register');
+    ->name('register.store');
 
 Route::post('/login', [LoginController::class, 'store'])
     ->middleware('guest')
-    ->name('login');
+    ->name('login.store');
 
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
     ->middleware('guest')
@@ -35,3 +35,8 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
+// Login and Register for Browser
+Route::view('/login', 'auth.login')->middleware('guest')->name('login.form');
+Route::view('/register', 'auth.register')->middleware('guest')->name('register.form');
+
+

@@ -9,41 +9,56 @@ use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
+    /**
+     * List all users
+     */
     public function index(): JsonResponse
     {
-        return response()->json([
-            'message' => 'Users fetched successfully.',
-            'data' => User::query()->latest()->get(),
-        ]);
+        try {
+            $users = User::query()->latest()->get();
+
+            return response()->success($users, 'Users fetched successfully');
+
+        } catch (\Exception $e) {
+            return response()->error('Failed to fetch users', 500, $e->getMessage());
+        }
     }
 
+    /**
+     * Show a single user by id or email
+     */
     public function show(string $identifier): JsonResponse
     {
-        $user = is_numeric($identifier)
-            ? User::find($identifier)
-            : User::where('email', $identifier)->first();
+        try {
+            $user = is_numeric($identifier)
+                ? User::find($identifier)
+                : User::where('email', $identifier)->first();
 
-        if (! $user) {
-            return response()->json([
-                'message' => 'User not found.',
-            ], 404);
+            if (! $user) {
+                return response()->error('User not found', 404);
+            }
+
+            return response()->success($user, 'User fetched successfully');
+
+        } catch (\Exception $e) {
+            return response()->error('Failed to fetch user', 500, $e->getMessage());
         }
-
-        return response()->json([
-            'message' => 'User fetched successfully.',
-            'data' => $user,
-        ]);
     }
 
+    /**
+     * Update a user
+     */
     public function update(UpdateUserRequest $request, User $user): JsonResponse
     {
-        $data = $request->safe()->only(['name', 'email', 'password']);
+        try {
+            $data = $request->safe()->only(['name', 'email', 'password']);
 
-        $user->update($data);
+            $user->update($data);
 
-        return response()->json([
-            'message' => 'User updated successfully.',
-            'data' => $user->fresh(),
-        ]);
+            return response()->success($user->fresh(), 'User updated successfully');
+
+        } catch (\Exception $e) {
+            return response()->error('Failed to update user', 500, $e->getMessage());
+        }
     }
 }
