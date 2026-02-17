@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\DataTables\PostDataTable;
@@ -53,6 +54,10 @@ class PostController extends Controller
         $data = $request->only(['post_title','post_description']);
         $data['post_status'] = $request->post_status === 'active';
         $data['image'] = $request->file('image')->store('posts', 'public');
+
+        if (Auth::check()) {
+            $data['author_id'] = Auth::id();
+        }
 
         Post::create($data);
 

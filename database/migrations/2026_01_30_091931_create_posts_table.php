@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('post_title')->unique();
             $table->text('post_description');
             $table->boolean('post_status')->default(0); // 0 = inactive, 1 = active
-            $table->foreignIdFor(User::class, 'author_id')->constrained();
+$table->foreignId('author_id')->nullable()->constrained('users')->cascadeOnDelete();
             // $table->foreignId('author_id')
             //     ->references('users')
             //     ->cascadeOnDelete();   
