@@ -1,18 +1,22 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\api\v1\AuthController;
 use App\Http\Controllers\Api\v1\UserController;
+use App\Http\Controllers\Auth\ApiAuthController;
 use App\Http\Controllers\Api\v1\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth:sanctum', 'throttle:api'])->group(function() {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+Route::prefix('v1')->group(function () {
+    Route::post('/register', [ApiAuthController::class, 'register']);
+    Route::post('/login', [ApiAuthController::class, 'login']);
 
-    Route::prefix('v1')->group(function() {
-        Route::apiResource('posts', PostController::class);
-    }); 
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/logout', [ApiAuthController::class, 'logout']);
+        Route::get('/users', [UserController::class, 'index']);
+        Route::get('/users/{identifier}', [UserController::class, 'show']);
+        Route::put('/users/{user}', [UserController::class, 'update']);
+        Route::patch('/users/{user}', [UserController::class, 'update']);
+    });
 });
 
 Route::middleware('auth:sanctum')->controller(UserController::class)->group(function () {
