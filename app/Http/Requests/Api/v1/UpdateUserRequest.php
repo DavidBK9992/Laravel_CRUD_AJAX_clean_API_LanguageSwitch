@@ -8,16 +8,6 @@ use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        /** @var User $authUser */
-        $authUser = $this->user();
-        /** @var User $targetUser */
-        $targetUser = $this->route('user');
-
-        return $authUser->is($targetUser);
-    }
-
     public function rules(): array
     {
         /** @var User $targetUser */

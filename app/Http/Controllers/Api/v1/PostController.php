@@ -53,11 +53,8 @@ class PostController extends Controller
     {
         abort_if(Auth::id() != $post->author_id, 403, 'Access Forbidden!');
         // $data = $request->validate([
-            
         // ]);
-
         // $post->update($data);
-
         // return new PostResource($post);
 
         $data = $request->only(['post_title','post_description']);

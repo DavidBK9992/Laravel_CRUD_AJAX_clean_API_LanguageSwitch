@@ -6,14 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StorePostRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        // Only logged in Users can create a post
-        return $this->user() !== null;
-    }
 
     /**
      * Get the validation rules that apply to the request.

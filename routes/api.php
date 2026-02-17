@@ -18,10 +18,9 @@ Route::prefix('v1')->group(function () {
     });
 });
 
-Route::middleware('auth:sanctum')->controller(UserController::class)->group(function () {
-    Route::get('/users', 'index');
-    Route::get('/users/{user}', 'show');
-    Route::put('/users/{user}', 'update');
-});
+// Route::middleware('auth:sanctum')->controller(UserController::class)->group(function () {
+//     Route::get('/users', 'index');
+//     Route::get('/users/{user}', 'show');
+//     Route::put('/users/{user}', 'update');});
 
 require __DIR__.'/auth.php';
