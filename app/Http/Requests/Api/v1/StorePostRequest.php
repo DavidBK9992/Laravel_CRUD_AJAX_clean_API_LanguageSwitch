@@ -11,7 +11,7 @@ class StorePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // Nur eingeloggte User dürfen Posts erstellen
+        // Only logged in Users can create a post
         return $this->user() !== null;
     }
 

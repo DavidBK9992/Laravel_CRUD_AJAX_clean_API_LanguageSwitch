@@ -11,7 +11,7 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // Only owner can change the code
+        // Only the specific user can change the code
         $post = $this->route('post'); // Route-parameter 'post'
         return $post && $this->user()->id === $post->author_id;
     }
