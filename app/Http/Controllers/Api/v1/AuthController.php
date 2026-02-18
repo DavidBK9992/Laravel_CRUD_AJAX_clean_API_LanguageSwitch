@@ -3,29 +3,27 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\v1\RegisterUserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
+
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|min:2',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed'
-        ]);
+   $data = $request->validated();
 
         $user = User::create([
-            'name' => $data['name'],
-            'email'=> $data['email'],
-            'password' => Hash::make($data['password'])
+            'name'     => $data['name'],
+            'email'    => $data['email'],
+            'password' => Hash::make($data['password']),
         ]);
 
-        return response()->json([
-            'message' => 'User registered successfully',
-            'user' => $user
-        ], 201);
+        event(new Registered($user));
+
+        return response()->success($user, 'User created successfully', 201);
     }
 }

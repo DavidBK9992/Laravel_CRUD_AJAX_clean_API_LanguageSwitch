@@ -21,7 +21,6 @@ Route::view('/contact', 'contact')->name('contact');
 // Register
 Route::get('/register', [RegisteredUserController::class, 'create'])
     ->name('register.form');
-
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->name('register.store');
 

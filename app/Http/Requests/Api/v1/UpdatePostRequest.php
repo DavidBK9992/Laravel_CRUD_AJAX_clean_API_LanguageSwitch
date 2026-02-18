@@ -7,16 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class UpdatePostRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        // Only the specific user can change the code
-        $post = $this->route('post'); // Route-parameter 'post'
-        return $post && $this->user()->id === $post->author_id;
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      */
     public function rules(): array
