@@ -43,16 +43,14 @@ class PostDataTable extends DataTable
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-50"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                 </span>
-                <span class="font-normal text-sm italic">Active ✓</span>
-            </span>';
+             <span class="font-normal text-sm italic">' . trans('common.active') . ' ✓</span>           </span>';
             $statusText = 'active';
             } else {
             // INACTIVE – clean, static
             $badge = '
             <span class="text-gray-600 inline-flex items-center gap-x-2 min-w-[90px]">
                 <span class="inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                <span class="text-sm font-normal italic">Inactive ✗</span>
-            </span>';
+    <span class="text-sm font-normal italic">' . trans('common.inactive') . ' ✗</span>         </span>';
             $statusText = 'inactive';
             }
 
@@ -84,8 +82,7 @@ class PostDataTable extends DataTable
                       </a>';
     }
             $html .= '<button data-id="' . $row->id . '" data-post_title="' . e($row->post_title) . '" class="delete-post border p-2 rounded text-red-600 bg-red-50 hover:bg-red-100 flex items-center justify-center">
-                            Delete
-                     </button>';
+                             ' . trans('common.delete') . '                   </button>';
             return $html . '</div>';
     })
 
@@ -111,52 +108,54 @@ class PostDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-    return $this->builder()
-        ->setTableId('posts-table')
-        ->columns($this->getColumns())
-        ->minifiedAjax()
-        ->orderBy(5)
-        ->parameters([
-        'responsive' => true,
-        'dom' => '<"flex justify-between mb-2"<"length-menu"l><"buttons"B>>frtip',
-        'buttons' => ['csv', 'excel'],
-        'initComplete' => 'function() {
-            this.api().columns().every(function() {
-                var column = this;
-                var footer = column.footer();
-                if (!footer) return;
+        $allLabel = e(trans('common.all'));
+        $activeLabel = e(trans('common.active'));
+        $inactiveLabel = e(trans('common.inactive'));
+        $searchLabel = e(trans('common.search'));
 
-                // Excluded columns d
-                var exclude = ["image","action"];
-                if (exclude.includes(column.dataSrc())) {
-                    footer.innerHTML = "";
-                    return;
-                }
+               return $this->builder()
+            ->setTableId('posts-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->orderBy(5)
+           ->parameters([
+    'responsive' => true,
+    'dom' => '<"flex justify-between mb-2"<"length-menu"l><"buttons"B>>frtip',
+    'buttons' => ['csv', 'excel'],
+    'initComplete' => 'function() {
+        this.api().columns().every(function() {
+            var column = this;
+            var footer = column.footer();
+            if (!footer) return;
 
-                if (column.dataSrc() === "post_status") {
-                    // Select for status
-                    var select = document.createElement("select");
-                    select.classList.add("form-select", "block", "w-full", "p-1", "border", "border-gray-300", "rounded", "text-sm", "focus:outline-none", "focus:ring-1", "focus:ring-blue-500");
-                    select.innerHTML = "<option value=\"\">All</option><option value=\"1\">Active</option><option value=\"0\">Inactive</option>";
-                    footer.innerHTML = "";
-                    footer.appendChild(select);
-                    select.addEventListener("change", function() {
-                        column.search(this.value).draw();
-                    });
-                } else {
-                    // Input for other columns
-                    var input = document.createElement("input");
-                    input.placeholder = "Search";
-                    input.classList.add("form-input", "block", "w-full", "p-1", "border", "border-gray-300", "rounded", "text-sm", "focus:outline-none", "focus:ring-1", "focus:ring-gray-500");
-                    footer.innerHTML = "";
-                    footer.appendChild(input);
-                    input.addEventListener("keyup", function() {
-                        column.search(this.value).draw();
-                    });
-                }
-            });
-        }'
-    ]);
+            var exclude = ["image", "action"];
+            if (exclude.includes(column.dataSrc())) {
+                footer.innerHTML = "";
+                return;
+            }
+
+            if (column.dataSrc() === "post_status") {
+                var select = document.createElement("select");
+                select.classList.add("form-select","block","w-full","p-1","border","border-gray-300","rounded","text-sm");
+                select.innerHTML = "<option value=\"\">'.$allLabel.'</option><option value=\"1\">'.$activeLabel.'</option><option value=\"0\">'.$inactiveLabel.'</option>";
+                footer.innerHTML = "";
+                footer.appendChild(select);
+                select.addEventListener("change", function() {
+                    column.search(this.value).draw();
+                });
+            } else {
+                var input = document.createElement("input");
+                input.placeholder = "'.$searchLabel.'";
+                input.classList.add("form-input","block","w-full","p-1","border","border-gray-300","rounded","text-sm");
+                footer.innerHTML = "";
+                footer.appendChild(input);
+                input.addEventListener("keyup", function() {
+                    column.search(this.value).draw();
+                });
+            }
+        });
+    }'
+]);
 }
 
     /**
@@ -166,13 +165,13 @@ class PostDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('post_title'),
-            Column::make('post_description'),
-            Column::make('image')->orderable(false)->searchable(false),
-            Column::make('post_status')->orderable(false),
-            Column::make('updated_at'),
-            Column::make('action')->orderable(false)->searchable(false),
+ Column::make('id')->title(trans('posts.id')),
+            Column::make('post_title')->title(trans('posts.title')),
+            Column::make('post_description')->title(trans('posts.description')),
+            Column::make('image')->title(trans('posts.image'))->orderable(false)->searchable(false),
+            Column::make('post_status')->title(trans('posts.status'))->orderable(false),
+            Column::make('updated_at')->title(trans('posts.updated_at')),
+            Column::make('action')->title(trans('posts.actions'))->orderable(false)->searchable(false),
         ];
     }
 }

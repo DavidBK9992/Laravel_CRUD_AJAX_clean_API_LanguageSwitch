@@ -3,7 +3,7 @@
  look and feel across all pages -->
 
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-stone-50">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-stone-50">
 
 <head>
     <meta charset="UTF-8">
@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.1/css/rowReorder.bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css">
+
 
     <!-- jQuery & DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -56,14 +57,16 @@
                     </button>
                 </div>
                 <div class="hidden gap-4 lg:flex lg:flex-1 lg:justify-end">
-                    <a href="{{ route('home') }}" class="text-sm/6 font-semibold text-gray-900"><img src="/home.png"
-                            alt="" class="h-6 w-auto"></a>
-                    <a href="{{ route('posts.index') }}" class="text-sm/6 font-semibold text-gray-900"><img
-                            src="/list.png" alt="" class="h-6 w-auto"></a></a>
+                    <a href="{{ route('home') }}" class="text-sm/6 font-semibold text-gray-900">Home</a>
+                    <a href="{{ route('posts.index') }}" class="text-sm/6 font-semibold text-gray-900">All Posts</a></a>
                     <a href="{{ route('posts.create') }}" class="text-sm/6 font-semibold text-gray-900"><img
                             src="/create.png" alt="" class="h-6 w-auto"></a></a></span></a>
                     <a href="{{ route('register.form') }}" class="text-sm/6 font-semibold text-gray-900">Sign Up</a></a>
-                    <a href="{{ route('login.form') }}" class="text-sm/6 font-semibold text-gray-900">Login</a></a></span></a>
+                    <a href="{{ route('login.form') }}"
+                        class="text-sm/6 font-semibold text-gray-900">Login</a></a></span></a>
+                    <a href="{{ route('lang.switch', 'en') }}" class="text-sm/6 font-semibold text-gray-900">EN</a>
+                    <p>|</p>
+                    <a href="{{ route('lang.switch', 'de') }}" class="text-sm/6 font-semibold text-gray-900">DE</a>
                 </div>
             </nav>
             <el-dialog>
@@ -88,15 +91,18 @@
                             <div class="mt-6 flow-root">
                                 <div class="-my-6 divide-y divide-gray-500/10">
                                     <div class="space-y-2 py-6">
+                                        <a href="{{ route('lang.switch', 'en') }}"
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ __('common.english') }}</a>
+                                        <a href="{{ route('lang.switch', 'de') }}"
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ __('common.german') }}</a>
                                         <a href="{{ route('posts.index') }}"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Posts</a>
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ __('common.posts') }}</a>
                                         <a href="{{ route('posts.create') }}"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Add
-                                            Post</a>
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ __('common.add_post') }}</a>
                                     </div>
                                     <div class="py-6">
                                         <a href="{{ route('contact') }}"
-                                            class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Contact</a>
+                                            class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ __('common.contact') }}</a>
                                     </div>
                                 </div>
                             </div>
@@ -122,13 +128,6 @@
         window.addEventListener('scroll', () => {
             const currentScroll = window.pageYOffset;
 
-            if (currentScroll > lastScroll && currentScroll > 50) {
-                // scroll down → remove header from view
-                header.style.transform = "translateY(-100%)";
-            } else {
-                // scroll up → show header again
-                header.style.transform = "translateY(0)";
-            }
 
             lastScroll = currentScroll;
         });

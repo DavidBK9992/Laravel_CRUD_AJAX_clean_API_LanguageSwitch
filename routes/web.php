@@ -7,6 +7,16 @@ use App\Http\Controllers\PostController;
 // // Home Page
 Route::view('/', 'home')->name('home');
 
+// Language Translation locale
+Route::get('/lang/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, ['en', 'de'], true), 404);
+
+    session(['locale' => $locale]);
+
+    return back();
+})->name('lang.switch');
+
+
 // AJAX routes first
 Route::get('/posts/data', [PostController::class, 'getData'])->name('posts.data');
 Route::post('/posts/status-update', [PostController::class, 'statusUpdate'])->name('posts.status.update');
@@ -24,11 +34,6 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->name('register.store');
 
-// Laravel Breeze kit default route 
-
-// Route::get('/', function () {
-//     return ['Laravel' => app()->version()];
-// });
 
 require __DIR__.'/auth.php';
 
