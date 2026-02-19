@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.3.3/css/rowReorder.dataTables.min.css">
 
-
     <!-- jQuery & DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -57,16 +56,70 @@
                     </button>
                 </div>
                 <div class="hidden gap-4 lg:flex lg:flex-1 lg:justify-end">
-                    <a href="{{ route('home') }}" class="text-sm/6 font-semibold text-gray-900">Home</a>
-                    <a href="{{ route('posts.index') }}" class="text-sm/6 font-semibold text-gray-900">All Posts</a></a>
-                    <a href="{{ route('posts.create') }}" class="text-sm/6 font-semibold text-gray-900"><img
+                    <a href="{{ route('home') }}"
+                        class="self-center text-sm/6 font-semibold text-gray-900">{{ trans('common.home') }}</a>
+                    <a href="{{ route('posts.index') }}"
+                        class="self-center text-sm/6 font-semibold text-gray-900">{{ trans('common.posts') }}</a></a>
+                    <a href="{{ route('posts.create') }}" class="self-center text-sm/6 font-semibold text-gray-900"><img
                             src="/create.png" alt="" class="h-6 w-auto"></a></a></span></a>
-                    <a href="{{ route('register.form') }}" class="text-sm/6 font-semibold text-gray-900">Sign Up</a></a>
+                    <a href="{{ route('register.form') }}"
+                        class="self-center text-sm/6 font-semibold text-gray-900">{{ trans('common.sign_up') }}</a></a>
                     <a href="{{ route('login.form') }}"
-                        class="text-sm/6 font-semibold text-gray-900">Login</a></a></span></a>
-                    <a href="{{ route('lang.switch', 'en') }}" class="text-sm/6 font-semibold text-gray-900">EN</a>
-                    <p>|</p>
-                    <a href="{{ route('lang.switch', 'de') }}" class="text-sm/6 font-semibold text-gray-900">DE</a>
+                        class="self-center text-sm/6 font-semibold text-gray-900">{{ trans('common.login') }}</a></a></span></a>
+                    <div class="relative inline-block text-left">
+                        <!-- Current language as button -->
+                        <button id="langButton"
+                            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+                            type="button">
+                            {{ strtoupper(app()->getLocale()) }}
+                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown -->
+                        <div id="langDropdown"
+                            class="hidden origin-top-right absolute right-0 mt-2 w-28 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <div class="py-1">
+                                @php
+                                    $languages = [
+                                        'en' => 'English',
+                                        'de' => 'Deutsch',
+                                        'it' => 'Italiano',
+                                        'hu' => 'Magyar',
+                                        'hi' => 'हिन्दी',
+                                    ];
+                                @endphp
+
+                                @foreach ($languages as $code => $label)
+                                    <a href="{{ route('lang.switch', $code) }}"
+                                        class="block px-4 py-2 text-sm {{ app()->getLocale() === $code ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900' }}">
+                                        {{ $label }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        // Dropdown per Klick toggeln
+                        const langButton = document.getElementById('langButton');
+                        const langDropdown = document.getElementById('langDropdown');
+
+                        langButton.addEventListener('click', () => {
+                            langDropdown.classList.toggle('hidden');
+                        });
+
+                        // Klick außerhalb schließt Dropdown
+                        document.addEventListener('click', function(event) {
+                            if (!langButton.contains(event.target) && !langDropdown.contains(event.target)) {
+                                langDropdown.classList.add('hidden');
+                            }
+                        });
+                    </script>
+
                 </div>
             </nav>
             <el-dialog>
@@ -84,7 +137,8 @@
                                     <span class="sr-only">Close menu</span>
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                                         data-slot="icon" aria-hidden="true" class="size-6">
-                                        <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round"
+                                            stroke-linejoin="round" />
                                     </svg>
                                 </button>
                             </div>
@@ -92,17 +146,17 @@
                                 <div class="-my-6 divide-y divide-gray-500/10">
                                     <div class="space-y-2 py-6">
                                         <a href="{{ route('lang.switch', 'en') }}"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ __('common.english') }}</a>
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ trans('common.english') }}</a>
                                         <a href="{{ route('lang.switch', 'de') }}"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ __('common.german') }}</a>
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ trans('common.german') }}</a>
                                         <a href="{{ route('posts.index') }}"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ __('common.posts') }}</a>
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ trans('common.posts') }}</a>
                                         <a href="{{ route('posts.create') }}"
-                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ __('common.add_post') }}</a>
+                                            class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ trans('common.add_post') }}</a>
                                     </div>
                                     <div class="py-6">
                                         <a href="{{ route('contact') }}"
-                                            class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ __('common.contact') }}</a>
+                                            class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">{{ trans('common.contact') }}</a>
                                     </div>
                                 </div>
                             </div>

@@ -1,8 +1,8 @@
 <x-layout>
     <x-header>
         <x-slot name="header">
-            <h2 class="mt-6 text-2xl font-bold text-gray-900">{{ __('posts.list_title') }}</h2>
-            <p class="text-sm text-gray-500">{{ __('posts.list_subtitle') }}</p>
+            <h2 class="mt-6 text-2xl font-bold text-gray-900">{{ trans('posts.list_title') }}</h2>
+            <p class="text-sm text-gray-500">{{ trans('posts.list_subtitle') }}</p>
         </x-slot>
         <!-- Table -->
         <div class="w-full overflow-x-auto">
@@ -11,37 +11,40 @@
                 <!-- Table Header -->
                 <thead class="bg-gray-50 ">
                     <tr>
-                        <th class="w-8 px-2 py-2 text-left text-sm font-semibold text-gray-700">{{ __('posts.id') }}</th>
-                        <th class="w-30 px-2 py-2 text-left text-sm font-semibold text-gray-700">{{ __('posts.title') }}
+                        <th class="w-8 px-2 py-2 text-left text-sm font-semibold text-gray-700">{{ trans('posts.id') }}
+                        </th>
+                        <th class="w-30 px-2 py-2 text-left text-sm font-semibold text-gray-700">
+                            {{ trans('posts.title') }}
                         </th>
                         <th class="w-36 px-2 py-2 text-left text-sm font-semibold text-gray-700">
-                            {{ __('posts.description') }}</th>
-                        <th class="w-16 px-2 py-2 text-left text-sm font-semibold text-gray-700">{{ __('posts.image') }}
+                            {{ trans('posts.description') }}</th>
+                        <th class="w-16 px-2 py-2 text-left text-sm font-semibold text-gray-700">
+                            {{ trans('posts.image') }}
                         </th>
-                        <th class="px-2 py-2 text-left text-sm font-semibold text-gray-700">{{ __('posts.status') }}
+                        <th class="px-2 py-2 text-left text-sm font-semibold text-gray-700">{{ trans('posts.status') }}
                         </th>
                         <th class="w-28 px-2 py-2 text-left text-sm font-semibold text-gray-700">
-                            {{ __('posts.updated_at') }}</th>
+                            {{ trans('posts.updated_at') }}</th>
                         <th class="w-36 px-4 py-2 text-left text-sm font-semibold text-gray-700">
-                            {{ __('posts.actions') }}</th>
+                            {{ trans('posts.actions') }}</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th class="w-8 px-2 py-2 text-left text-sm font-semibold text-gray-700">{{ __('posts.id') }}
+                        <th class="w-8 px-2 py-2 text-left text-sm font-semibold text-gray-700">{{ trans('posts.id') }}
                         </th>
                         <th class="w-30 px-2 py-2 text-left text-sm font-semibold text-gray-700">
-                            {{ __('posts.title') }}</th>
+                            {{ trans('posts.title') }}</th>
                         <th class="w-36 px-2 py-2 text-left text-sm font-semibold text-gray-700">
-                            {{ __('posts.description') }}</th>
+                            {{ trans('posts.description') }}</th>
                         <th class="w-16 px-2 py-2 text-left text-sm font-semibold text-gray-700">
-                            {{ __('posts.image') }}</th>
-                        <th class="px-2 py-2 text-left text-sm font-semibold text-gray-700">{{ __('posts.status') }}
+                            {{ trans('posts.image') }}</th>
+                        <th class="px-2 py-2 text-left text-sm font-semibold text-gray-700">{{ trans('posts.status') }}
                         </th>
                         <th class="w-28 px-2 py-2 text-left text-sm font-semibold text-gray-700">
-                            {{ __('posts.updated_at') }}</th>
+                            {{ trans('posts.updated_at') }}</th>
                         <th class="w-36 px-4 py-2 text-left text-sm font-semibold text-gray-700">
-                            {{ __('posts.actions') }}</th>
+                            {{ trans('posts.actions') }}</th>
                     </tr>
                 </tfoot>
             </table>

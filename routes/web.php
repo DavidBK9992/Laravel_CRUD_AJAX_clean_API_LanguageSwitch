@@ -9,12 +9,14 @@ Route::view('/', 'home')->name('home');
 
 // Language Translation locale
 Route::get('/lang/{locale}', function (string $locale) {
-    abort_unless(in_array($locale, ['en', 'de'], true), 404);
+    abort_unless(in_array($locale, ['en', 'de', 'hi', 'hu', 'it'], true), 404);
 
     session(['locale' => $locale]);
+    cookie()->queue('locale', $locale, 60 * 24 * 30);
 
     return back();
 })->name('lang.switch');
+
 
 
 // AJAX routes first

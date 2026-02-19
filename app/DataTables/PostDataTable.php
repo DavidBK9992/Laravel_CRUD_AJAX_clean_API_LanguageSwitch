@@ -43,14 +43,14 @@ class PostDataTable extends DataTable
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-50"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                 </span>
-             <span class="font-normal text-sm italic">' . trans('common.active') . ' ✓</span>           </span>';
+             <span class="font-normal text-sm italic">' . trans('datatable.active') . ' ✓</span>           </span>';
             $statusText = 'active';
             } else {
             // INACTIVE – clean, static
             $badge = '
             <span class="text-gray-600 inline-flex items-center gap-x-2 min-w-[90px]">
                 <span class="inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-    <span class="text-sm font-normal italic">' . trans('common.inactive') . ' ✗</span>         </span>';
+    <span class="text-sm font-normal italic">' . trans('datatable.inactive') . ' ✗</span>         </span>';
             $statusText = 'inactive';
             }
 
@@ -82,7 +82,7 @@ class PostDataTable extends DataTable
                       </a>';
     }
             $html .= '<button data-id="' . $row->id . '" data-post_title="' . e($row->post_title) . '" class="delete-post border p-2 rounded text-red-600 bg-red-50 hover:bg-red-100 flex items-center justify-center">
-                             ' . trans('common.delete') . '                   </button>';
+                             ' . trans('datatable.delete') . '                   </button>';
             return $html . '</div>';
     })
 
@@ -108,10 +108,10 @@ class PostDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-        $allLabel = e(trans('common.all'));
-        $activeLabel = e(trans('common.active'));
-        $inactiveLabel = e(trans('common.inactive'));
-        $searchLabel = e(trans('common.search'));
+        $allLabel = e(trans('datatable.all'));
+        $activeLabel = e(trans('datatable.active'));
+        $inactiveLabel = e(trans('datatable.inactive'));
+        $searchLabel = e(trans('datatable.search'));
 
                return $this->builder()
             ->setTableId('posts-table')
@@ -122,6 +122,19 @@ class PostDataTable extends DataTable
     'responsive' => true,
     'dom' => '<"flex justify-between mb-2"<"length-menu"l><"buttons"B>>frtip',
     'buttons' => ['csv', 'excel'],
+    'language' => [
+        'search' => trans('datatable.search') . ':',
+        'lengthMenu' => trans('datatable.length_menu'),
+        'info' => trans('datatable.dt_info'),
+        'infoEmpty' => trans('datatable.dt_info_empty'),
+        'zeroRecords' => trans('datatable.dt_zero_records'),
+        'paginate' => [
+            'first' => trans('datatable.dt_first'),
+            'last' => trans('datatable.dt_last'),
+            'next' => trans('datatable.dt_next'),
+            'previous' => trans('datatable.dt_previous'),
+        ],
+    ],
     'initComplete' => 'function() {
         this.api().columns().every(function() {
             var column = this;
@@ -134,27 +147,29 @@ class PostDataTable extends DataTable
                 return;
             }
 
-            if (column.dataSrc() === "post_status") {
+              if (column.dataSrc() === "post_status") {
                 var select = document.createElement("select");
-                select.classList.add("form-select","block","w-full","p-1","border","border-gray-300","rounded","text-sm");
-                select.innerHTML = "<option value=\"\">'.$allLabel.'</option><option value=\"1\">'.$activeLabel.'</option><option value=\"0\">'.$inactiveLabel.'</option>";
+                select.classList.add("form-select", "block", "w-full", "p-1", "border", "border-gray-300", "rounded", "text-sm", "focus:outline-none", "focus:ring-1", "focus:ring-blue-500");
+                select.innerHTML = "<option value=\"\">' . $allLabel . '</option><option value=\"1\">' . $activeLabel . '</option><option value=\"0\">' . $inactiveLabel . '</option>";
                 footer.innerHTML = "";
                 footer.appendChild(select);
+
                 select.addEventListener("change", function() {
                     column.search(this.value).draw();
                 });
             } else {
                 var input = document.createElement("input");
-                input.placeholder = "'.$searchLabel.'";
-                input.classList.add("form-input","block","w-full","p-1","border","border-gray-300","rounded","text-sm");
+                input.placeholder = "' . $searchLabel . '";
+                input.classList.add("form-input", "block", "w-full", "p-1", "border", "border-gray-300", "rounded", "text-sm", "focus:outline-none", "focus:ring-1", "focus:ring-gray-500");
                 footer.innerHTML = "";
                 footer.appendChild(input);
+
                 input.addEventListener("keyup", function() {
                     column.search(this.value).draw();
                 });
             }
         });
-    }'
+    }',
 ]);
 }
 

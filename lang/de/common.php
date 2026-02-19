@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'home' => 'Startseite',
     'sign_up' => 'Registrieren',
     'login' => 'Anmelden',
     'posts' => 'Beiträge',
@@ -9,9 +10,7 @@ return [
     'language' => 'Sprache',
     'english' => 'English',
     'german' => 'Deutsch',
-    'search' => 'Suchen',
-    'all' => 'Alle',
-    'active' => 'Aktiv',
-    'inactive' => 'Inaktiv',
-    'delete' => 'Löschen',
+    'italian' => 'Italiano',
+    'hungarian' => 'Magyar',
+    'hindi' => 'हिन्दी',
 ];
