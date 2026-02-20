@@ -16,7 +16,42 @@
                     </span>
                     <span class="h-1 w-1 rounded-full bg-gray-400"></span>
                     <span>
-                        {{ str_word_count($post->post_description) }} words
+                        {{ str_word_count($post->post_description) }} {{ trans('posts.words') }}
+                    </span>
+                </div>
+            </header>
+
+            @if ($post->image)
+                <div class="mb-10 flex justify-center">
+                    <img src="{{ asset('storage/' . $post->image) }}" alt="{{ trans('show_post.post_image_alt') }}"
+                        class="w-full max-h-[420px] object-cover rounded-xl shadow-sm">
+                </div>
+            @endif
+
+            <div class="prose prose-gray max-w-none text-gray-700 leading-relaxed">
+                <p class="whitespace-pre-line break-words">
+                    {{ $post->post_description }}
+                </p>
+            </div>
+
+            <div class="my-10 border-t"></div>
+
+            <footer class="flex items-center justify-between text-sm text-gray-500">
+                <span>
+                    {{ trans('show_post.last_updated') }}
+                    <span class="text-gray-700 font-medium">
+                        {{ $post->updated_at->format('d M Y, H:i') }}
+                    </span>
+                </span>
+                <a href="{{ route('posts.index') }}" class="font-semibold text-gray-700 hover:text-gray-900">
+                    {{ trans('show_post.back_to_posts') }}
+                </a>
+            </footer>
+        </article>
+    </div>
+</x-layout>
+
+{{-- {{ str_word_count($post->post_description) }} words
                     </span>
                 </div>
             </header>
@@ -45,9 +80,4 @@
                 </span>
                 <a href="{{ route('posts.index') }}" class="font-semibold text-gray-700 hover:text-gray-900">
                     ← Back to posts
-                </a>
-            </footer>
-
-        </article>
-    </div>
-</x-layout>
+                </a> --}}

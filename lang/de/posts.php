@@ -8,6 +8,12 @@ return [
     'description' => 'Beschreibung',
     'image' => 'Bild',
     'status' => 'Status',
-    'updated_at' => 'Datum',
+    'updated_at' => 'aktualisiert_am',
     'actions' => 'Aktionen',
+    'edit_title' => 'Beitrag bearbeiten',
+    'edit_subtitle' => '(Details unten aktualisieren)',
+    'update' => 'Aktualisieren',
+    'cancel' => 'Abbrechen',
+    'current_image' => 'Aktuelles Bild:',
+    'words' => 'Wörter',
 ];

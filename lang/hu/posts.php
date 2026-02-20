@@ -10,4 +10,10 @@ return [
     'status' => 'Állapot',
     'updated_at' => 'frissítve',
     'actions' => 'Műveletek',
+    'edit_title' => 'Bejegyzés szerkesztése',
+    'edit_subtitle' => '(Frissítsd az alábbi adatokat)',
+    'update' => 'Frissítés',
+    'cancel' => 'Mégse',
+    'current_image' => 'Jelenlegi kép:',
+    'words' => 'szó',
 ];

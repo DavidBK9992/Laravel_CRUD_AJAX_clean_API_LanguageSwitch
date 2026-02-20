@@ -10,4 +10,10 @@ return [
     'status' => 'Status',
     'updated_at' => 'updated_at',
     'actions' => 'Actions',
+    'edit_title' => 'Edit Post',
+    'edit_subtitle' => '(Update the details below)',
+    'update' => 'Update',
+    'cancel' => 'Cancel',
+    'current_image' => 'Current image:',
+    'words' => 'words',
 ];

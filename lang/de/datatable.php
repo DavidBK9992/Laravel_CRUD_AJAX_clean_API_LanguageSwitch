@@ -1,17 +1,25 @@
 <?php
-  
-return[
-    'search' => 'Suche',
+
+return [
+    'search' => 'Suchen',
     'all' => 'Alle',
     'active' => 'Aktiv',
     'inactive' => 'Inaktiv',
     'delete' => 'Löschen',
-    'length_menu' => 'Zeig _MENU_ Einträge',
-    'dt_info' => 'Zeige _START_ bis _END_ von _TOTAL_ Einträgen',
-    'dt_info_empty' => 'Zeige 0 bis 0 von 0 Einträgen',
-    'dt_zero_records' => 'Keine passenden Einträge gefunden',
-    'dt_first' => 'Erste',
-    'dt_last' => 'Letzte',
-    'dt_next' => 'Nächste',
-    'dt_previous' => 'Vorherige',
+    'length_menu' => 'Zeige _MENU_ Einträge',
+    'info' => 'Zeige _START_ bis _END_ von _TOTAL_ Einträgen',
+    'info_empty' => 'Zeige 0 bis 0 von 0 Einträgen',
+    'zero_records' => 'Keine passenden Einträge gefunden',
+    'first' => 'Erste',
+    'last' => 'Letzte',
+    'next' => 'Nächste',
+    'previous' => 'Vorherige',
+    'export_csv' => 'CSV exportieren',
+    'export_excel' => 'Excel exportieren',
+    'change_status' => 'Status ändern',
+    'change_status_with_id' => 'Status des Beitrags mit ID ändern:',
+    'save' => 'Speichern',
+    'cancel' => 'Abbrechen',
+    'delete_post' => 'Beitrag löschen',
+    'confirm_delete_with_id' => 'Möchten Sie den Beitrag mit folgender ID wirklich löschen:',
 ];

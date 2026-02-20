@@ -1,17 +1,25 @@
 <?php
-  
-return[
-   'search' => 'Search',
+
+return [
+    'search' => 'Search',
     'all' => 'All',
     'active' => 'Active',
     'inactive' => 'Inactive',
     'delete' => 'Delete',
     'length_menu' => 'Show _MENU_ entries',
-    'dt_info' => 'Showing _START_ to _END_ of _TOTAL_ entries',
-    'dt_info_empty' => 'Showing 0 to 0 of 0 entries',
-    'dt_zero_records' => 'No matching records found',
-    'dt_first' => 'First',
-    'dt_last' => 'Last',
-    'dt_next' => 'Next',
-    'dt_previous' => 'Previous',
+    'info' => 'Showing _START_ to _END_ of _TOTAL_ entries',
+    'info_empty' => 'Showing 0 to 0 of 0 entries',
+    'zero_records' => 'No matching records found',
+    'first' => 'First',
+    'last' => 'Last',
+    'next' => 'Next',
+    'previous' => 'Previous',
+    'export_csv' => 'Export CSV',
+    'export_excel' => 'Export Excel',
+    'change_status' => 'Change Status',
+    'change_status_with_id' => 'Change Post Status with ID:',
+    'save' => 'Save',
+    'cancel' => 'Cancel',
+    'delete_post' => 'Delete Post',
+    'confirm_delete_with_id' => 'Are you sure you want to delete Post with ID:',
 ];

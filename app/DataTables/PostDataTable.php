@@ -43,14 +43,14 @@ class PostDataTable extends DataTable
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-50"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                 </span>
-             <span class="font-normal text-sm italic">' . trans('datatable.active') . ' ✓</span>           </span>';
+             <span class="font-normal text-sm italic">' . trans('common.active') . ' ✓</span>           </span>';
             $statusText = 'active';
             } else {
             // INACTIVE – clean, static
             $badge = '
             <span class="text-gray-600 inline-flex items-center gap-x-2 min-w-[90px]">
                 <span class="inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-    <span class="text-sm font-normal italic">' . trans('datatable.inactive') . ' ✗</span>         </span>';
+    <span class="text-sm font-normal italic">' . trans('common.inactive') . ' ✗</span>         </span>';
             $statusText = 'inactive';
             }
 
@@ -82,7 +82,7 @@ class PostDataTable extends DataTable
                       </a>';
     }
             $html .= '<button data-id="' . $row->id . '" data-post_title="' . e($row->post_title) . '" class="delete-post border p-2 rounded text-red-600 bg-red-50 hover:bg-red-100 flex items-center justify-center">
-                             ' . trans('datatable.delete') . '                   </button>';
+                             ' . trans('common.delete') . '                   </button>';
             return $html . '</div>';
     })
 
@@ -108,10 +108,10 @@ class PostDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-        $allLabel = e(trans('datatable.all'));
-        $activeLabel = e(trans('datatable.active'));
-        $inactiveLabel = e(trans('datatable.inactive'));
-        $searchLabel = e(trans('datatable.search'));
+        $allLabel = e(trans('common.all'));
+        $activeLabel = e(trans('common.active'));
+        $inactiveLabel = e(trans('common.inactive'));
+        $searchLabel = e(trans('common.search'));
 
                return $this->builder()
             ->setTableId('posts-table')
@@ -123,16 +123,16 @@ class PostDataTable extends DataTable
     'dom' => '<"flex justify-between mb-2"<"length-menu"l><"buttons"B>>frtip',
     'buttons' => ['csv', 'excel'],
     'language' => [
-        'search' => trans('datatable.search') . ':',
-        'lengthMenu' => trans('datatable.length_menu'),
-        'info' => trans('datatable.dt_info'),
-        'infoEmpty' => trans('datatable.dt_info_empty'),
-        'zeroRecords' => trans('datatable.dt_zero_records'),
+        'search' => trans('common.search') . ':',
+        'lengthMenu' => trans('common.length_menu'),
+        'info' => trans('common.dt_info'),
+        'infoEmpty' => trans('common.dt_info_empty'),
+        'zeroRecords' => trans('common.dt_zero_records'),
         'paginate' => [
-            'first' => trans('datatable.dt_first'),
-            'last' => trans('datatable.dt_last'),
-            'next' => trans('datatable.dt_next'),
-            'previous' => trans('datatable.dt_previous'),
+            'first' => trans('common.dt_first'),
+            'last' => trans('common.dt_last'),
+            'next' => trans('common.dt_next'),
+            'previous' => trans('common.dt_previous'),
         ],
     ],
     'initComplete' => 'function() {

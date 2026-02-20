@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return [
     'search' => 'Cerca',
@@ -7,11 +7,19 @@ return [
     'inactive' => 'Inattivo',
     'delete' => 'Elimina',
     'length_menu' => 'Mostra _MENU_ elementi',
-    'dt_info' => 'Visualizzazione da _START_ a _END_ di _TOTAL_ elementi',
-    'dt_info_empty' => 'Visualizzazione da 0 a 0 di 0 elementi',
-    'dt_zero_records' => 'Nessun elemento corrispondente trovato',
-    'dt_first' => 'Primo',
-    'dt_last' => 'Ultimo',
-    'dt_next' => 'Successivo',
-    'dt_previous' => 'Precedente',
+    'info' => 'Visualizzazione da _START_ a _END_ di _TOTAL_ elementi',
+    'info_empty' => 'Visualizzazione da 0 a 0 di 0 elementi',
+    'zero_records' => 'Nessun elemento corrispondente trovato',
+    'first' => 'Primo',
+    'last' => 'Ultimo',
+    'next' => 'Successivo',
+    'previous' => 'Precedente',
+    'export_csv' => 'Esporta CSV',
+    'export_excel' => 'Esporta Excel',
+    'change_status' => 'Cambia stato',
+    'change_status_with_id' => 'Cambia stato del post con ID:',
+    'save' => 'Salva',
+    'cancel' => 'Annulla',
+    'delete_post' => 'Elimina post',
+    'confirm_delete_with_id' => 'Sei sicuro di voler eliminare il post con ID:',
 ];
