@@ -1,8 +1,8 @@
 <x-layout>
     <x-header>
         <x-slot name="header">
-            <h2 class="mt-4 text-2xl font-bold text-gray-900">Edit Post</h2>
-            <p class="text-sm text-gray-500">(Update the details below)</p>
+            <h2 class="text-2xl font-bold text-gray-900">{{ trans('headers.update_header') }}</h2>
+            <p class="text-sm text-gray-500">{{ trans('headers.update_header_description') }}</p>
         </x-slot>
 
         <form method="POST" action="{{ route('posts.update', $post->id) }}" enctype="multipart/form-data">
@@ -11,7 +11,8 @@
             <div class="space-y-4 m-4">
                 <!-- Title -->
                 <div>
-                    <label for="post_title" class="block text-sm font-medium text-gray-900">Title</label>
+                    <label for="post_title"
+                        class="block text-sm font-medium text-gray-900">{{ trans('common.title') }}</label>
                     <div class="mt-1">
                         <input type="text" name="post_title" id="post_title" placeholder="Post title"
                             value="{{ old('post_title', $post->post_title) }}" required
@@ -24,7 +25,8 @@
 
                 <!-- Description -->
                 <div>
-                    <label for="post_description" class="block text-sm font-medium text-gray-900">Description</label>
+                    <label for="post_description"
+                        class="block text-sm font-medium text-gray-900">{{ trans('common.description') }}</label>
                     <div class="mt-1">
                         <textarea name="post_description" id="post_description" placeholder="Post description" required
                             class="block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ old('post_description', $post->post_description) }}</textarea>
@@ -36,10 +38,11 @@
 
                 <!-- Image -->
                 <div>
-                    <label for="image" class="block text-sm font-medium text-gray-900">Image</label>
+                    <label for="image"
+                        class="block text-sm font-medium text-gray-900">{{ trans('common.image') }}</label>
 
                     @if ($post->image)
-                        <p class="text-sm text-gray-500 mb-2">Current image:</p>
+                        <p class="text-sm text-gray-500 mb-2">{{ trans('posts.current_image') }}</p>
                         <img src="{{ asset('storage/' . $post->image) }}" alt="Current image"
                             class="mb-4 max-h-60 rounded-lg object-cover">
                     @endif
@@ -53,12 +56,15 @@
 
                 <!-- Status -->
                 <div>
-                    <label for="post_status" class="block text-sm font-medium text-gray-900">Status</label>
+                    <label for="post_status"
+                        class="block text-sm font-medium text-gray-900">{{ trans('common.status') }}</label>
                     <select id="post_status" name="post_status"
                         class="mt-1 block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                         required>
-                        <option value="active" {{ $post->post_status === 'active' ? 'selected' : '' }}>Active</option>
-                        <option value="inactive" {{ $post->post_status === 'inactive' ? 'selected' : '' }}>Inactive
+                        <option value="active" {{ $post->post_status === 'active' ? 'selected' : '' }}>
+                            {{ trans('common.active') }}</option>
+                        <option value="inactive" {{ $post->post_status === 'inactive' ? 'selected' : '' }}>
+                            {{ trans('common.inactive') }}
                         </option>
                     </select>
 
@@ -73,11 +79,11 @@
             <div class="m-4 flex justify-start items-center gap-x-4 mt-6">
                 <button type="submit"
                     class="rounded-md bg-gray-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs focus-visible:outline-gray-600">
-                    Update
+                    {{ trans('common.update') }}
                 </button>
 
                 <a href="{{ route('posts.index') }}" class="text-sm font-semibold text-gray-900 hover:underline">
-                    Cancel
+                    {{ trans('common.cancel') }}
                 </a>
             </div>
         </form>

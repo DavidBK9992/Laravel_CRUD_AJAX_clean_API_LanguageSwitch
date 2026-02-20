@@ -26,4 +26,10 @@ return [
     'dt_last' => 'Utolsó',
     'dt_next' => 'Következő',
     'dt_previous' => 'Előző',
+    'title' => 'Cím',
+    'description' => 'Leírás',
+    'image' => 'Kép',
+    'status' => 'Állapot',
+    'cancel' => 'Mégse',
+    'update' => 'Update',
 ];

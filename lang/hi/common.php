@@ -26,4 +26,10 @@ return [
     'dt_last' => 'आख़िरी',
     'dt_next' => 'अगला',
     'dt_previous' => 'पिछला',
+    'title' => 'शीर्षक',
+    'description' => 'विवरण',
+    'image' => 'चित्र',
+    'status' => 'स्थिति',
+    'cancel' => 'रद्द करें',
+    'update' => 'Update',
 ];

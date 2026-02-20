@@ -26,4 +26,10 @@ return [
     'dt_last' => 'Last',
     'dt_next' => 'Next',
     'dt_previous' => 'Previous',
+    'title' => 'Title',
+    'description' => 'Description',
+    'image' => 'Image',
+    'status' => 'Status',
+    'cancel' => 'Cancel',
+    'update' => 'Update',
 ];

@@ -26,4 +26,10 @@ return [
     'dt_last' => 'Letzte',
     'dt_next' => 'Nächste',
     'dt_previous' => 'Vorherige',
+    'title' => 'Titel',
+    'description' => 'Beschreibung',
+    'image' => 'Bild',
+    'status' => 'Status',
+    'cancel' => 'Abbrechen',
+    'update' => 'Update',
 ];
